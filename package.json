@@ -13,5 +13,18 @@
     "jade": "~1.11.0",
     "mongoose": "^5.9.3",
     "morgan": "~1.9.1"
-  }
+  },
+  "main": "app.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cjzufelt/RELC225.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cjzufelt/RELC225/issues"
+  },
+  "homepage": "https://github.com/cjzufelt/RELC225#readme",
+  "description": ""
 }
