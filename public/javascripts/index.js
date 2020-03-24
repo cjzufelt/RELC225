@@ -1,93 +1,47 @@
 var app = new Vue({
     el: '#app',
-
     data: {
-        gallery: [],
-        dateMin: null,
-        dateMax: null,
-        startYear: null,
-        numEras: null,
-        eraDuration: null,
-        yearUnit: null,
-        minYearUnit: null,
-        zoomTimeout: false,
-        coverImg: true,
-        theaterMode: "img",
-        theaterOn: false,
-        subsOn: true,
-        theaterData: {},
-        recordsHTML: null,
-        MONTH: ["No Month", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "Novemeber", "December"],
-        isMobile: false,
-        dividerHeight: 0,
-        addingNew: false,
-        newPieceDefault: {
-            "name": "New Artwork",
-            "artist": null,
-            "day": null,
-            "month": null,
-            "year": null,
-            "displayYear": false,
-            "pos": 50,
-            "img": null,
-            "period": null,
-            "id": 2,
-            isNewPlaceholder: true,
-        },
-        editingPiece: false,
-        editPieceIdx: null,
-        editOriginal: {},
+        numChapters: 138,
+        chapterNum: 1,
+        verses: "",
+        dcjson: ""
     },
-    
-     methods: {
-        async upload() {
-            try {
-                const formData = new FormData();
-                formData.append('photo', this.file, this.file.name)
-                let r1 = await axios.post('/api/photos', formData);
-                let r2 = await axios.post('/api/items', {
-                    name: this.name,
-                    artist: this.artist,
-                    day: this.day,
-                    month: this.month,
-                    year: this.year,
-                    pos: this.pos,
-                    img: r1.data.path,
-                    period: this.period,
-                    note: this.note,
-                });
-                this.addItem = r2.data;
-            }
-            catch (error) {
-                console.log(error);
-            }
-        },
 
-        async getPieces() {
+    async created() {
+        this.getJson();
+    },
+
+    methods: {
+        async getJson() {
             try {
-                let response = await axios.get("/api/items");
-                this.gallery = response.data;
+                let response = await axios.get("/api/dcjson");
+                this.dcjson = response.data;
+                console.log(this.dcjson);
                 return true;
             }
             catch (error) {
                 console.log(error);
             }
         },
+        
+        nextChapter() {
+            if (this.chapterNum >= this.numChapters) {
+                this.chapterNum = 1;
+            }
+            else {
+                ++this.chapterNum;
+            }
 
-        // async deleteItem() {
-        //     if (confirm(`Are you sure you want to delete '${this.editPiece.name}?'`))
-        //     {
-        //         try {
-        //             // console.log("Made it into deleteItem");
-        //             let response = axios.delete("/api/items/" + this.editPiece._id);
-        //             this.findItem = null;
-        //             this.getPieces();
-        //             this.closeEditForm();
-        //             return true;
-        //         }
-        //         catch (error) {
-        //             console.log(error);
-        //         }
-        //     }
-        // },
-     }
+            this.verses = this.dcjson.JSON.parse('{"section":"1"}');
+        },
+
+        prevChapter() {
+            if (this.chapterNum <= 1) {
+                this.chapterNum = this.numChapters;
+            }
+            else {
+                --this.chapterNum;
+            }
+        }
+    }
+})

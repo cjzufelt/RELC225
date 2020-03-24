@@ -8,17 +8,20 @@
 </head>
 
 <body>
-    <div class="title">
-        <h1>Doctrine and Covenants {{chapterNum}}</h1>
-    </div>
-    <div id="page" class="content">
-        <div class="verses">
-            <p>{{verses}}</p>
+    <div id="app">
+        <div class="title">
+            <h1>Doctrine and Covenants {{chapterNum}}</h1>
+        </div>
+        <div id="page" class="content">
+            <div class="verses">
+                <p>{{verses}}</p>
+            </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.2/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js" integrity="sha256-mpnrJ5DpEZZkwkE1ZgkEQQJW/46CSEh/STrZKOB/qoM=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.7/vue.js" integrity="sha256-g+Q8DFAmG5+eyRPSydX0LY4TfjsL11XSDrIGerbbEdA=" crossorigin="anonymous"></script>
-    <script src="script.js"></script>
+    <script src="javascripts/index.js"></script>
 </body>
 
 </html>
