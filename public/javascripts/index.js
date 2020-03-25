@@ -1,10 +1,14 @@
 var app = new Vue({
     el: '#app',
     data: {
+        loading: true,
         numSections: 138,
         sectionNum: 1,
         verses: "",
-        dcjson: Object()
+        dcjson: Object(),
+        addedName: '',
+        addedInsight: '',
+        insights: {}
     },
 
     created() {
@@ -17,6 +21,7 @@ var app = new Vue({
                 let response = await axios.get("/api/dcjson");
                 this.dcjson = response.data;
                 this.updatePage(this.sectionNum - 1);
+                this.loading = false;
                 return true;
             }
             catch (error) {
@@ -53,6 +58,19 @@ var app = new Vue({
             }
 
             this.updatePage(this.sectionNum - 1);
+        },
+
+        addInsight() {
+            var currentDate = new Date();
+            if (!((this.sectionNum - 1) in this.insights))
+                Vue.set(app.insights, (this.sectionNum - 1), new Array);
+            this.insights[(this.sectionNum - 1)].push({
+                author: this.addedName,
+                text: this.addedInsight,
+                date: new Date().toLocaleString()
+            });
+            this.addedName = '';
+            this.addedInsight = '';
         }
     }
 })

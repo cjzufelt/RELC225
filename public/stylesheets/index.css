@@ -49,3 +49,13 @@ pre {
   background-color: #008cba;
   color: white;
 }
+
+#loadScreen {
+  text-align: center;
+  font-family: "Times New Roman";
+  font-size: 28px;
+}
+
+.insights {
+  text-align: center;
+}

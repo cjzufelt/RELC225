@@ -9,20 +9,38 @@
 
 <body>
     <div id="app">
-        <div class="title">
-            <h1>Doctrine and Covenants<br>Section {{sectionNum}}</h1>
+        <div id="loadScreen" v-if="loading">
+            <p>Loading...</p>
         </div>
-        <div class="btn-group">
-            <button class="button" style="vertical-align:middle" v-on:click="prevChapter()">&#x00AB; PREV</button>
-            <button class="button" style="vertical-align:middle" v-on:click="nextChapter()">NEXT &#x00BB;</button>
-        </div>
-        <div id="page" class="content">
+        <div v-else>
+            <div class="title">
+                <h1>Doctrine and Covenants<br>Section {{sectionNum}}</h1>
+            </div>
+            <div class="btn-group">
+                <button class="button" v-on:click="prevChapter()">&#x00AB; PREV</button>
+                <button class="button" v-on:click="nextChapter()">NEXT &#x00BB;</button>
+            </div>
             <div class="verses">
                 <pre>{{ verses }}</pre>
             </div>
             <div class="btn-group">
-                <button class="button" style="vertical-align:middle" v-on:click="prevChapter()">&#x00AB; PREV</button>
-                <button class="button" style="vertical-align:middle" v-on:click="nextChapter()">NEXT &#x00BB;</button>
+                <button class="button" v-on:click="prevChapter()">&#x00AB; PREV</button>
+                <button class="button" v-on:click="nextChapter()">NEXT &#x00BB;</button>
+            </div>
+            <div class="insights">
+                <hr>
+                <h1>Insights</h1>
+                <form v-on:submit.prevent="addInsight">
+                    <input v-model="addedName" placeholder="Name"></p>
+                    <textarea v-model="addedInsight"></textarea>
+                    <br />
+                    <button type="submit">Share</button>
+                </form>
+                <div v-for="insight in insights[(sectionNum - 1)]">
+                    <hr>
+                    <p>{{insight.text}}</p>
+                    <p><i>-- {{insight.author}}, posted on {{insight.date}}</i></p>
+                </div>
             </div>
         </div>
     </div>
