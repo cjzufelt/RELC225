@@ -13,16 +13,16 @@
             <h1>Doctrine and Covenants<br>Section {{sectionNum}}</h1>
         </div>
         <div class="btn-group">
-            <button class="button prev" style="vertical-align:middle" v-on:click="prevChapter()">PREV </button>
-            <button class="button next" style="vertical-align:middle" v-on:click="nextChapter()">NEXT </button>
+            <button class="button" style="vertical-align:middle" v-on:click="prevChapter()">&#x00AB; PREV</button>
+            <button class="button" style="vertical-align:middle" v-on:click="nextChapter()">NEXT &#x00BB;</button>
         </div>
         <div id="page" class="content">
             <div class="verses">
                 <pre>{{ verses }}</pre>
             </div>
             <div class="btn-group">
-                <button class="button" style="vertical-align:middle" v-on:click="prevChapter()">PREV</button>
-                <button class="button" style="vertical-align:middle" v-on:click="nextChapter()">NEXT</button>
+                <button class="button" style="vertical-align:middle" v-on:click="prevChapter()">&#x00AB; PREV</button>
+                <button class="button" style="vertical-align:middle" v-on:click="nextChapter()">NEXT &#x00BB;</button>
             </div>
         </div>
     </div>
