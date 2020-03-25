@@ -1,5 +1,88 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: #DDDDDD;
+  padding-left: 250px;
+  padding-right: 250px;
+  background-color: #EEEEEE;
+}
+
+.title {
+  font-family: Courier;
+  font-size: 28px;
+  text-align: center;
+}
+
+.verses {
+  font-family: Times;
+  font-size: 28px;
+}
+
+.btn-group {
+  text-align: center;
+}
+
+pre {
+  overflow-x: auto;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+
+.button {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #008cba;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 20px;
+  padding: 20px;
+  width: 100px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  transition: 0.5s;
+}
+
+.prev span:after {
+  content: '\00AB';
+  left: -20px;
+}
+
+.next span:after {
+  content: '\00BB';
+  right: -20px;
+}
+
+.prev:hover span {
+  padding-left: 25px;
+}
+
+.next:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+}
+
+.prev:hover span:after {
+  left: 0;
+}
+
+.next:hover span:after {
+  right: 0;
 }

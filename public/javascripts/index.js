@@ -16,7 +16,7 @@ var app = new Vue({
             try {
                 let response = await axios.get("/api/dcjson");
                 this.dcjson = response.data;
-                this.getSectionVerses(this.sectionNum - 1);
+                this.updatePage(this.sectionNum - 1);
                 return true;
             }
             catch (error) {
@@ -24,11 +24,12 @@ var app = new Vue({
             }
         },
 
-        getSectionVerses(section) {
+        updatePage(section) {
+            window.scrollTo(0, 0);
             this.verses = "";
             var verse;
             for (verse of this.dcjson.sections[section].verses) {
-                this.verses += verse.verse + " " + verse.text + "\n";
+                this.verses += verse.verse + ": " + verse.text + "\n\n";
             }
         },
 
@@ -40,7 +41,7 @@ var app = new Vue({
                 ++this.sectionNum;
             }
 
-            this.getSectionVerses(this.sectionNum - 1);
+            this.updatePage(this.sectionNum - 1);
         },
 
         prevChapter() {
@@ -51,7 +52,7 @@ var app = new Vue({
                 --this.sectionNum;
             }
 
-            this.getSectionVerses(this.sectionNum - 1);
+            this.updatePage(this.sectionNum - 1);
         }
     }
 })

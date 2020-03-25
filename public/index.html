@@ -4,25 +4,28 @@
 <head>
     <meta charset="utf-8" />
     <title>D&C</title>
-    <link rel="stylesheet" href="stylsheets/index.css" />
+    <link rel="stylesheet" href="stylesheets/index.css" />
 </head>
 
 <body>
     <div id="app">
         <div class="title">
-            <h1>Doctrine and Covenants {{sectionNum}}</h1>
+            <h1>Doctrine and Covenants<br>Section {{sectionNum}}</h1>
+        </div>
+        <div class="btn-group">
+            <button class="button prev" style="vertical-align:middle" v-on:click="prevChapter()">PREV </button>
+            <button class="button next" style="vertical-align:middle" v-on:click="nextChapter()">NEXT </button>
         </div>
         <div id="page" class="content">
             <div class="verses">
                 <pre>{{ verses }}</pre>
             </div>
             <div class="btn-group">
-                <button v-on:click="prevChapter()"><</button>
-                <button v-on:click="nextChapter()">></button>
+                <button class="button" style="vertical-align:middle" v-on:click="prevChapter()">PREV</button>
+                <button class="button" style="vertical-align:middle" v-on:click="nextChapter()">NEXT</button>
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.2/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js" integrity="sha256-mpnrJ5DpEZZkwkE1ZgkEQQJW/46CSEh/STrZKOB/qoM=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.7/vue.js" integrity="sha256-g+Q8DFAmG5+eyRPSydX0LY4TfjsL11XSDrIGerbbEdA=" crossorigin="anonymous"></script>
     <script src="javascripts/index.js"></script>
