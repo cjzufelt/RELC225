@@ -3,26 +3,20 @@ var app = new Vue({
     data: {
         numSections: 138,
         sectionNum: 1,
-        verses: [],
+        verses: "",
         dcjson: Object()
     },
 
     created() {
-        this.getJSON();
-        this.getSectionVerses(1);
+        this.init();
     },
 
     methods: {
-        async getJSON() {
+        async init() {
             try {
                 let response = await axios.get("/api/dcjson");
                 this.dcjson = response.data;
-                // console.log(JSON.stringify(this.dcjson));
-                // console.log(JSON.stringify(this.dcjson.sections[0].verses));
-                var verse;
-                for (verse of this.dcjson.sections[0].verses) {
-                    this.verses.push(verse.verse + " " + verse.text);
-                }
+                this.getSectionVerses(this.sectionNum - 1);
                 return true;
             }
             catch (error) {
@@ -31,13 +25,11 @@ var app = new Vue({
         },
 
         getSectionVerses(section) {
-            // console.log(JSON.stringify(this.dcjson.sections[0].verses[0].text));
-            this.verses = [];
+            this.verses = "";
             var verse;
-            for (verse of this.dcjson.sections[0].verses) {
-                this.verses.push(verse.verse + " " + verse.text);
+            for (verse of this.dcjson.sections[section].verses) {
+                this.verses += verse.verse + " " + verse.text + "\n";
             }
-            // console.log(this.verses);
         },
 
         nextChapter() {
@@ -48,7 +40,7 @@ var app = new Vue({
                 ++this.sectionNum;
             }
 
-            this.getSectionVerses(this.sectionNum);
+            this.getSectionVerses(this.sectionNum - 1);
         },
 
         prevChapter() {
@@ -59,7 +51,7 @@ var app = new Vue({
                 --this.sectionNum;
             }
 
-            this.getSectionVerses(this.sectionNum);
+            this.getSectionVerses(this.sectionNum - 1);
         }
     }
 })
