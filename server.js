@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-    extended: false
+  extended: false
 }));
 
 app.use(express.static('public'));
@@ -13,7 +13,7 @@ const fs = require('fs');
 
 app.get('/api/dcjson', async(req, res) => {
   try {
-    const data = fs.readFileSync('D&C.json', 'utf8')
+    var data = JSON.parse(fs.readFileSync("doctrine-and-covenants.json", "utf-8"));
     res.send(data);
   }
   catch (error) {

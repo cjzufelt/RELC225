@@ -1,47 +1,65 @@
 var app = new Vue({
     el: '#app',
     data: {
-        numChapters: 138,
-        chapterNum: 1,
-        verses: "",
-        dcjson: ""
+        numSections: 138,
+        sectionNum: 1,
+        verses: [],
+        dcjson: Object()
     },
 
-    async created() {
-        this.getJson();
+    created() {
+        this.getJSON();
+        this.getSectionVerses(1);
     },
 
     methods: {
-        async getJson() {
+        async getJSON() {
             try {
                 let response = await axios.get("/api/dcjson");
                 this.dcjson = response.data;
-                console.log(this.dcjson);
+                // console.log(JSON.stringify(this.dcjson));
+                // console.log(JSON.stringify(this.dcjson.sections[0].verses));
+                var verse;
+                for (verse of this.dcjson.sections[0].verses) {
+                    this.verses.push(verse.verse + " " + verse.text);
+                }
                 return true;
             }
             catch (error) {
                 console.log(error);
             }
         },
-        
+
+        getSectionVerses(section) {
+            // console.log(JSON.stringify(this.dcjson.sections[0].verses[0].text));
+            this.verses = [];
+            var verse;
+            for (verse of this.dcjson.sections[0].verses) {
+                this.verses.push(verse.verse + " " + verse.text);
+            }
+            // console.log(this.verses);
+        },
+
         nextChapter() {
-            if (this.chapterNum >= this.numChapters) {
-                this.chapterNum = 1;
+            if (this.sectionNum >= this.numSections) {
+                this.sectionNum = 1;
             }
             else {
-                ++this.chapterNum;
+                ++this.sectionNum;
             }
 
-            this.verses = this.dcjson.JSON.parse('{"section":"1"}');
+            this.getSectionVerses(this.sectionNum);
         },
 
         prevChapter() {
-            if (this.chapterNum <= 1) {
-                this.chapterNum = this.numChapters;
+            if (this.sectionNum <= 1) {
+                this.sectionNum = this.numSections;
             }
             else {
-                --this.chapterNum;
+                --this.sectionNum;
             }
+
+            this.getSectionVerses(this.sectionNum);
         }
     }
 })
