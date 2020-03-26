@@ -61,7 +61,7 @@ pre {
 }
 
 .jumpChapter,
-.nameInput[type=text],
+.authorInput[type=text],
 textarea[type=text] {
   font-family: "Times New Roman";
   font-size: 20px;
@@ -79,7 +79,7 @@ textarea[type=text] {
   width: 10%;
 }
 
-.nameInput[type=text],
+.authorInput[type=text],
 textarea[type=text] {
   width: 100%;
   padding: 12px 20px;
@@ -92,7 +92,7 @@ textarea[type=text] {
 }
 
 .jumpChapter,
-.nameInput[type=text]:focus,
+.authorInput[type=text]:focus,
 textarea[type=text]:focus {
   border: 3px solid #555;
 }

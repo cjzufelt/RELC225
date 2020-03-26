@@ -6,9 +6,10 @@ var app = new Vue({
         sectionNum: 1,
         verses: "",
         dcjson: Object(),
-        addedName: '',
-        addedInsight: '',
-        insights: {}
+        author: '',
+        insight: '',
+        insights: {},
+        addSuccessful: null,
     },
 
     created() {
@@ -28,7 +29,7 @@ var app = new Vue({
                 console.log(error);
             }
         },
-        
+
         validSectionNum() {
             if (isNaN(this.sectionNum)) {
                 return false;
@@ -45,13 +46,15 @@ var app = new Vue({
                 this.verses = "";
                 return false;
             }
-            
+
             window.scrollTo(0, 0);
             this.verses = "";
             var verse;
             for (verse of this.dcjson.sections[this.sectionNum - 1].verses) {
                 this.verses += verse.verse + ": " + verse.text + "\n\n";
             }
+            
+            this.getInsights();
         },
 
         nextChapter() {
@@ -76,21 +79,32 @@ var app = new Vue({
             this.updatePage();
         },
 
-        addInsight() {
-            if (!this.validSectionNum()) {
-                return false;
+        async upload() {
+            try {
+                let r1 = await axios.post('/api/insights/' + this.sectionNum, {
+                    author: this.author,
+                    insight: this.insight,
+                    date: new Date().toLocaleString(),
+                });
+                this.addSuccessful = r1.data;
+            }
+            catch (error) {
+                console.log(error);
             }
             
-            var currentDate = new Date();
-            if (!((this.sectionNum - 1) in this.insights))
-                Vue.set(app.insights, (this.sectionNum - 1), new Array);
-            this.insights[(this.sectionNum - 1)].push({
-                author: this.addedName,
-                text: this.addedInsight,
-                date: new Date().toLocaleString()
-            });
-            this.addedName = '';
-            this.addedInsight = '';
-        }
+            this.getInsights();
+        },
+
+        async getInsights() {
+            try {
+                let response = await axios.get("/api/insights/" + this.sectionNum);
+                this.insights = response.data;
+                //console.log(this.insights);
+                return true;
+            }
+            catch (error) {
+                console.log(error);
+            }
+        },
     }
 })

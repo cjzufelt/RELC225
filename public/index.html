@@ -34,16 +34,15 @@
                 <hr>
                 <h1>Insights</h1>
                 <h2>Please share any spiritual insights you had while reading this section</h2>
-                <form v-on:submit.prevent="addInsight">
-                    <input class="nameInput" type=text v-model="addedName" placeholder="Name"></input>
-                    <textarea type=text v-model="addedInsight" placeholder="Insight"></textarea>
-                    <br>
-                    <button class="button" type="submit">Share</button>
+                <input class="authorInput" type=text v-model="author" placeholder="Name"></input>
+                <textarea type=text v-model="insight" placeholder="Insight"></textarea>
+                <br>
+                <button class="button" @click="upload">Share</button>
                 </form>
             </div>
-            <div v-for="insight in insights[(sectionNum - 1)]">
+            <div v-for="insight in insights">
                 <hr>
-                <pre>{{insight.text}}</pre>
+                <pre>{{insight.insight}}</pre>
                 <pre><i>-- {{insight.author}}, posted on {{insight.date}}</i></pre>
             </div>
         </div>
