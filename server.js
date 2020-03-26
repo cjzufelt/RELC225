@@ -30,6 +30,7 @@ mongoose.connect('mongodb://localhost:27017/doctrine-and-covenants', {
 
 // Create a scheme for insights: author, insight, and date.
 const insightSchema = new mongoose.Schema({
+  sectionNum: String,
   author: String,
   insight: String,
   date: String,
@@ -39,9 +40,10 @@ const insightSchema = new mongoose.Schema({
 const Insight = mongoose.model('Insight', insightSchema);
 
 // Create a insight: takes a author, insight, and date.
-app.post('/api/insights/:sectionNum', async(req, res) => {
+app.post('/api/insights/', async(req, res) => {
   // console.log("In post");
   const insight = new Insight({
+    sectionNum: req.body.sectionNum,
     author: req.body.author,
     insight: req.body.insight,
     date: req.body.date,
@@ -61,7 +63,8 @@ app.post('/api/insights/:sectionNum', async(req, res) => {
 app.get('/api/insights/:sectionNum', async(req, res) => {
   // console.log("In get");
   try {
-    let insights = await Insight.find();
+    let insights = await Insight.find({sectionNum: req.params.sectionNum});
+    // console.log(insights);
     res.send(insights);
   }
   catch (error) {

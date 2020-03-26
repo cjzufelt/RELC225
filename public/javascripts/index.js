@@ -79,9 +79,10 @@ var app = new Vue({
             this.updatePage();
         },
 
-        async upload() {
+        async putInsights() {
             try {
-                let r1 = await axios.post('/api/insights/' + this.sectionNum, {
+                let r1 = await axios.post('/api/insights/', {
+                    sectionNum: this.sectionNum,
                     author: this.author,
                     insight: this.insight,
                     date: new Date().toLocaleString(),
@@ -92,6 +93,8 @@ var app = new Vue({
                 console.log(error);
             }
             
+            this.author = "";
+            this.insight = "";
             this.getInsights();
         },
 
