@@ -14,10 +14,12 @@
         </div>
         <div v-else>
             <div class="title">
-                <h1>Doctrine and Covenants<br>Section {{sectionNum}}</h1>
+                <h1>Doctrine and Covenants</h1>
+                <h1>Section {{sectionNum}}</h1>
             </div>
             <div class="btn-group">
                 <button class="button" v-on:click="prevChapter()">&#x00AB; PREV</button>
+                <input class="jumpChapter" type=text v-model="sectionNum" v-on:input="updatePage"></input>
                 <button class="button" v-on:click="nextChapter()">NEXT &#x00BB;</button>
             </div>
             <div class="verses">
@@ -25,6 +27,7 @@
             </div>
             <div class="btn-group">
                 <button class="button" v-on:click="prevChapter()">&#x00AB; PREV</button>
+                <input class="jumpChapter" type=text v-model="sectionNum" v-on:input="updatePage"></input>
                 <button class="button" v-on:click="nextChapter()">NEXT &#x00BB;</button>
             </div>
             <div class="insight_input">
@@ -32,7 +35,7 @@
                 <h1>Insights</h1>
                 <h2>Please share any spiritual insights you had while reading this section</h2>
                 <form v-on:submit.prevent="addInsight">
-                    <input type=text v-model="addedName" placeholder="Name"></input>
+                    <input class="nameInput" type=text v-model="addedName" placeholder="Name"></input>
                     <textarea type=text v-model="addedInsight" placeholder="Insight"></textarea>
                     <br>
                     <button class="button" type="submit">Share</button>
