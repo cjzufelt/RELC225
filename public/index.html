@@ -27,20 +27,22 @@
                 <button class="button" v-on:click="prevChapter()">&#x00AB; PREV</button>
                 <button class="button" v-on:click="nextChapter()">NEXT &#x00BB;</button>
             </div>
-            <div class="insights">
+            <div class="insight_input">
                 <hr>
                 <h1>Insights</h1>
+                <h2>Please share any spiritual insights you had while reading this section</h2>
                 <form v-on:submit.prevent="addInsight">
-                    <input v-model="addedName" placeholder="Name"></p>
-                    <textarea v-model="addedInsight"></textarea>
-                    <br />
-                    <button type="submit">Share</button>
+                    <input type=text v-model="addedName" placeholder="Name"></input>
+                    <textarea type=text v-model="addedInsight" placeholder="Insight"></textarea>
+                    <br>
+                    <button class="button" type="submit">Share</button>
                 </form>
-                <div v-for="insight in insights[(sectionNum - 1)]">
-                    <hr>
-                    <p>{{insight.text}}</p>
-                    <p><i>-- {{insight.author}}, posted on {{insight.date}}</i></p>
-                </div>
+            </div>
+            <div v-for="insight in insights[(sectionNum - 1)]">
+                <hr>
+                <pre>{{insight.text}}</pre>
+                <pre><i>-- {{insight.author}}, posted on {{insight.date}}</i></pre>
+
             </div>
         </div>
     </div>
