@@ -5,7 +5,6 @@ var app = new Vue({
         numSections: 138,
         sectionNum: 1,
         verses: "",
-        dcjson: Object(),
         author: '',
         insight: '',
         insights: {},
@@ -19,8 +18,6 @@ var app = new Vue({
     methods: {
         async init() {
             try {
-                let response = await axios.get("/api/dcjson");
-                this.dcjson = response.data;
                 this.updatePage();
                 this.loading = false;
                 return true;
@@ -30,30 +27,9 @@ var app = new Vue({
             }
         },
 
-        validSectionNum() {
-            if (isNaN(this.sectionNum)) {
-                return false;
-            }
-            else if (this.sectionNum - 1 < 0 || this.sectionNum - 1 >= this.numSections) {
-                this.verses = "";
-                return false;
-            }
-            return true;
-        },
-
         updatePage() {
-            if (!this.validSectionNum()) {
-                this.verses = "";
-                return false;
-            }
-
             window.scrollTo(0, 0);
-            this.verses = "";
-            var verse;
-            for (verse of this.dcjson.sections[this.sectionNum - 1].verses) {
-                this.verses += verse.verse + ": " + verse.text + "\n\n";
-            }
-            
+            this.getVerses();
             this.getInsights();
         },
 
@@ -79,9 +55,25 @@ var app = new Vue({
             this.updatePage();
         },
 
+        async getVerses() {
+            if (this.sectionNum != "") {
+                try {
+                    let response = await axios.get("/api/dc/" + this.sectionNum);
+                    this.verses = response.data;
+                    return true;
+                }
+                catch (error) {
+                    console.log(error);
+                }
+            }
+            else {
+                this.verses = "";
+            }
+        },
+
         async putInsights() {
             try {
-                let r1 = await axios.post('/api/insights/', {
+                let r1 = await axios.post("/api/insights/", {
                     sectionNum: this.sectionNum,
                     author: this.author,
                     insight: this.insight,
@@ -92,21 +84,25 @@ var app = new Vue({
             catch (error) {
                 console.log(error);
             }
-            
+
             this.author = "";
             this.insight = "";
             this.getInsights();
         },
 
         async getInsights() {
-            try {
-                let response = await axios.get("/api/insights/" + this.sectionNum);
-                this.insights = response.data;
-                //console.log(this.insights);
-                return true;
+            if (this.sectionNum != "") {
+                try {
+                    let response = await axios.get("/api/insights/" + this.sectionNum);
+                    this.insights = response.data;
+                    return true;
+                }
+                catch (error) {
+                    console.log(error);
+                }
             }
-            catch (error) {
-                console.log(error);
+            else {
+                this.insights = [];
             }
         },
     }

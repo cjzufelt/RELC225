@@ -9,11 +9,30 @@ app.use(bodyParser.urlencoded({
 
 app.use(express.static('public'));
 
+var numSections = 138;
+
+function validSectionNum(sectionNum) {
+  if (isNaN(sectionNum)) {
+    return false;
+  }
+
+  return (sectionNum >= 0 && sectionNum < numSections);
+}
+
 const fs = require('fs');
-app.get('/api/dcjson', async(req, res) => {
+app.get('/api/dc/:sectionNum', async(req, res) => {
   try {
-    var data = JSON.parse(fs.readFileSync("doctrine-and-covenants.json", "utf-8"));
-    res.send(data);
+    var verses = "";
+    var sectionNum = req.params.sectionNum - 1;
+    if (validSectionNum(sectionNum)) {
+      var dcjson = JSON.parse(fs.readFileSync("doctrine-and-covenants.json", "utf-8"));
+      for (var verse of dcjson.sections[sectionNum].verses) {
+        verses += verse.verse + ": " + verse.text + "\n\n";
+      }
+    }
+
+
+    res.send(verses);
   }
   catch (error) {
     console.log(error);
@@ -39,9 +58,8 @@ const insightSchema = new mongoose.Schema({
 // Create a model for insights
 const Insight = mongoose.model('Insight', insightSchema);
 
-// Create a insight: takes a author, insight, and date.
+// Create an insight: takes a author, insight, and date.
 app.post('/api/insights/', async(req, res) => {
-  // console.log("In post");
   const insight = new Insight({
     sectionNum: req.body.sectionNum,
     author: req.body.author,
@@ -49,8 +67,6 @@ app.post('/api/insights/', async(req, res) => {
     date: req.body.date,
   });
   try {
-    // console.log("Post insight");
-    // console.log(insight);
     await insight.save();
     res.send(insight);
   }
@@ -61,10 +77,8 @@ app.post('/api/insights/', async(req, res) => {
 });
 
 app.get('/api/insights/:sectionNum', async(req, res) => {
-  // console.log("In get");
   try {
-    let insights = await Insight.find({sectionNum: req.params.sectionNum});
-    // console.log(insights);
+    let insights = await Insight.find({ sectionNum: req.params.sectionNum });
     res.send(insights);
   }
   catch (error) {
